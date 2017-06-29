@@ -58,12 +58,12 @@ class create_student_record(APIView):
                 base64data = base64.b64decode(base64data)
                 filename = '/Users/saifrehman/Desktop/practice/media/quickstart/images/emiratesid/'+str(st)+".png"
                 with open(filename, 'wb') as f:
-                    f.write(base64data) 
+                    f.write(base64data)
                 emiratesidimage = 'quickstart/images/emiratesid/'+str(st)+".png"
                 phonenumber = request.data.get("phonenumber")
                 age = request.data.get("age")
                 database = Student(age=age,phonenumber=phonenumber,pk_student_id=pk_student,emiratesidimage=emiratesidimage)
-                database.save() 
+                database.save()
                 return Response({"sucess":" true"}, status = 200)
             else:
                 return Response({"sucess":" false"}, status = 400)
@@ -76,15 +76,28 @@ class create_department_record(APIView):
         readToken = request.META['HTTP_AUTHORIZATION']
         readToken = readToken.split(" ")
         readToken = readToken[1]
-        payload = jwt.decode(readToken, 'practice', algorithms=['HS256']) 
+        payload = jwt.decode(readToken, 'practice', algorithms=['HS256'])
         pk_department_id = payload['user_id']
         department_name = request.data.get("departmentName")
         database = Department(departmentName=department_name, pk_department_id=pk_department_id)
         database.save()
         return Response({"Succes":"True"}, status=200)
 
+class get_all_student(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self,request,format=None):
+        get = Student.objects.all().values('phonenumber', 'age','created_at','emiratesidimage')
+        return Response({'students': list(get)})
 
+class get_number_of_student(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self,request,format=None):
+        get = Student.objects.all().count()
+        print get
+        print type(get)
+        return Response({"count":str(get)}, status = 200)
 
+        
 # class talent_check_accepted(APIView):
 #     permission_classes = (IsAuthenticated,)
 #     serializer_class = FileSerializer
@@ -166,7 +179,7 @@ class create_department_record(APIView):
 #         print id
 #         Talentspersonal.objects.filter(talentid_id=id).update(passportidimage='quickstart/images/passportid/'+str(st)+".png")
 #         return Response({"sucess":" true"}, status = 200)
-        
+
 # class talent_information_upload(APIView):
 #     permission_classes = (IsAuthenticated,)
 #     queryset = Talentspersonal.objects.all()
