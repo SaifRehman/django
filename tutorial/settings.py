@@ -81,7 +81,7 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=300),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=300),
-        'JWT_SECRET_KEY': "muse",
+    'JWT_SECRET_KEY': "practice",
     'JWT_ALGORITHM': 'HS256',
 }
 MIDDLEWARE = [
