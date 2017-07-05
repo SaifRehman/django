@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'crudbuilder',
     'rest_framework',
     'corsheaders',
+    'django_extensions',
 ]
 
 

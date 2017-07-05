@@ -22,7 +22,9 @@ import time
 import base64
 from models import Student
 from models import Department
-
+import json
+from watson_developer_cloud import NaturalLanguageUnderstandingV1
+import watson_developer_cloud.natural_language_understanding.features.v1 as Features
 class signup(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
@@ -58,46 +60,62 @@ class create_student_record(APIView):
                 base64data = base64.b64decode(base64data)
                 filename = '/Users/saifrehman/Desktop/practice/media/quickstart/images/emiratesid/'+str(st)+".png"
                 with open(filename, 'wb') as f:
-                    f.write(base64data)
+                    f.write(base64data) 
                 emiratesidimage = 'quickstart/images/emiratesid/'+str(st)+".png"
                 phonenumber = request.data.get("phonenumber")
                 age = request.data.get("age")
                 database = Student(age=age,phonenumber=phonenumber,pk_student_id=pk_student,emiratesidimage=emiratesidimage)
-                database.save()
+                database.save() 
                 return Response({"sucess":" true"}, status = 200)
             else:
                 return Response({"sucess":" false"}, status = 400)
         except:
             return Response({"sucess":" false"}, status = 400)
 
+class WatsonTest(APIView): 
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, format = None):
+        data = request.data.get("data")
+        natural_language_understanding = NaturalLanguageUnderstandingV1(username="8528a131-21cc-49f2-9511-100f2e46c548",password="CubkctR6Xwhn",version="2017-02-27")
+        response = natural_language_understanding.analyze(
+        text=data,
+        features=[
+        Features.Entities(
+        emotion=True,
+        sentiment=True,
+        limit=2
+        ),
+        Features.Keywords(
+        emotion=True,
+        sentiment=True,
+        limit=2
+        )
+        ]
+        )
+        print response
+        return Response({"Succes":response}, status=200)
 class create_department_record(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request, format = None):
         readToken = request.META['HTTP_AUTHORIZATION']
         readToken = readToken.split(" ")
         readToken = readToken[1]
-        payload = jwt.decode(readToken, 'practice', algorithms=['HS256'])
+        payload = jwt.decode(readToken, 'practice', algorithms=['HS256']) 
         pk_department_id = payload['user_id']
         department_name = request.data.get("departmentName")
         database = Department(departmentName=department_name, pk_department_id=pk_department_id)
         database.save()
         return Response({"Succes":"True"}, status=200)
-
+    
 class get_all_student(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self,request,format=None):
         get = Student.objects.all().values('phonenumber', 'age','created_at','emiratesidimage')
         return Response({'students': list(get)})
 
-class get_number_of_student(APIView):
-    permission_classes = (IsAuthenticated,)
-    def get(self,request,format=None):
-        get = Student.objects.all().count()
-        print get
-        print type(get)
-        return Response({"count":str(get)}, status = 200)
 
-        
+
+
 # class talent_check_accepted(APIView):
 #     permission_classes = (IsAuthenticated,)
 #     serializer_class = FileSerializer
@@ -179,7 +197,7 @@ class get_number_of_student(APIView):
 #         print id
 #         Talentspersonal.objects.filter(talentid_id=id).update(passportidimage='quickstart/images/passportid/'+str(st)+".png")
 #         return Response({"sucess":" true"}, status = 200)
-
+        
 # class talent_information_upload(APIView):
 #     permission_classes = (IsAuthenticated,)
 #     queryset = Talentspersonal.objects.all()
