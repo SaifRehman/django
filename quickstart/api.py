@@ -25,6 +25,10 @@ from models import Department
 import json
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 import watson_developer_cloud.natural_language_understanding.features.v1 as Features
+from os.path import join, dirname
+from os import environ
+from watson_developer_cloud import VisualRecognitionV3
+
 class signup(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
@@ -94,9 +98,24 @@ class WatsonTest(APIView):
         )
         print response
         return Response({"Succes":response}, status=200)
+
+class WatsonVision(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, format = None):
+        data = request.data.get("link")
+        visual_recognition = VisualRecognitionV3('2016-05-20', api_key='dd25c6e9314862d037af87c6e5bad2c67fab1b81')
+        response=visual_recognition.classify(images_url=data)
+        return Response({"Succes":response}, status=200)# go to angular go to ang
+
+
+#working good job
+# now try to get data from api and show in ui
+# make a new table and save some of the data in database
+# this is hard i give up noooo. ok the scond one not imp, but do the first one. this is good the thing we did now. 
 class create_department_record(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request, format = None):
+
         readToken = request.META['HTTP_AUTHORIZATION']
         readToken = readToken.split(" ")
         readToken = readToken[1]
