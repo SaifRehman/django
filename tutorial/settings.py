@@ -124,7 +124,7 @@ DATABASES = {
         'NAME': 'practice',
         'PORT': 3306,
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'university',
     }
 }
 
