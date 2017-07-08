@@ -11,7 +11,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 import jwt
 from rest_framework.parsers import MultiPartParser, FormParser,FileUploadParser
-# from serializer import FileSerializer
 import datetime
 import sys
 import io
@@ -25,6 +24,7 @@ from models import Department
 import json
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 import watson_developer_cloud.natural_language_understanding.features.v1 as Features
+
 class signup(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
