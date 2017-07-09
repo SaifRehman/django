@@ -111,17 +111,14 @@ class WatsonVision(APIView):
 class WatsonToneAnalyzer(APIView):
      permission_classes = (IsAuthenticated,)
      def post(self, request, format = None):
-         text = request.data.get("Tone")
-         tone_analyzer = ToneAnalyzerV3(
-         version="2016-05-19",
-         username="a21199cb-8a1f-4f55-ba8a-0cf68e0aa8c2",
-         password="FPiVIY47SXyf")
-     #   tone(text, tones=None, sentences=None, content_type='text/plain')
-         with open(join(dirname(__file__), 'tone.json')) as tone_json:
-            tone = tone_analyzer.tone(json.load(tone_json)['text'], tones='emotion',
-            content_type='text/plain')
-            print(json.dumps(tone, indent=2))   
-            return Response({"Succes":response}, status=200)
+        text = request.data.get("Tone")
+        tone_analyzer = ToneAnalyzerV3(
+        version="2016-05-19",
+        username="a21199cb-8a1f-4f55-ba8a-0cf68e0aa8c2",
+        password="FPiVIY47SXyf")
+        tone = tone_analyzer.tone(text, tones='emotion')   
+        return Response({"Succes":tone}, status=200)
+        
 
 class create_department_record(APIView):
     permission_classes = (IsAuthenticated,)
