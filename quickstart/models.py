@@ -30,3 +30,14 @@ class Department(models.Model):
         verbose_name_plural = "Departments"
     def __unicode__(self):
         return self.departmentName
+
+class Proffesor(models.Model):
+    prof_name = models.CharField(null=True, max_length = 50)
+    prof_dept = models.CharField(null = True, max_length=20)
+    pk_prof = models.OneToOneField(User)
+    class Meta:
+        db_table = "Proffesor"
+        verbose_name = "Proffesor"
+        verbose_name_plural = "Proffesors"
+    def __unicode__(self):
+        return self.prof_name

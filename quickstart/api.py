@@ -11,6 +11,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 import jwt
 from rest_framework.parsers import MultiPartParser, FormParser,FileUploadParser
+# from serializer import FileSerializer
 import datetime
 import sys
 import io
@@ -27,6 +28,7 @@ import watson_developer_cloud.natural_language_understanding.features.v1 as Feat
 from os.path import join, dirname
 from os import environ
 from watson_developer_cloud import VisualRecognitionV3
+from watson_developer_cloud import ToneAnalyzerV3     
 
 class signup(APIView):
     permission_classes = (AllowAny,)
@@ -104,13 +106,23 @@ class WatsonVision(APIView):
         data = request.data.get("link")
         visual_recognition = VisualRecognitionV3('2016-05-20', api_key='dd25c6e9314862d037af87c6e5bad2c67fab1b81')
         response=visual_recognition.classify(images_url=data)
-        return Response({"Succes":response}, status=200)# go to angular go to ang
+        return Response({"Succes":response}, status=200)
 
+class WatsonToneAnalyzer(APIView):
+     permission_classes = (IsAuthenticated,)
+     def post(self, request, format = None):
+         text = request.data.get("Tone")
+         tone_analyzer = ToneAnalyzerV3(
+         version="2016-05-19",
+         username="a21199cb-8a1f-4f55-ba8a-0cf68e0aa8c2",
+         password="FPiVIY47SXyf")
+     #   tone(text, tones=None, sentences=None, content_type='text/plain')
+         with open(join(dirname(__file__), 'tone.json')) as tone_json:
+            tone = tone_analyzer.tone(json.load(tone_json)['text'], tones='emotion',
+            content_type='text/plain')
+            print(json.dumps(tone, indent=2))   
+            return Response({"Succes":response}, status=200)
 
-#working good job
-# now try to get data from api and show in ui
-# make a new table and save some of the data in database
-# this is hard i give up noooo. ok the scond one not imp, but do the first one. this is good the thing we did now. 
 class create_department_record(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request, format = None):
@@ -132,7 +144,19 @@ class get_all_student(APIView):
         return Response({'students': list(get)})
 
 
-
+class create_prof_record(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, format = None):
+        readToken = request.META['HTTP_AUTHORIZATION']
+        readToken = readToken.split(" ")
+        readToken = readToken[1]
+        payload = jwt.decode(readToken, 'practice', algorithms=['HS256'])
+        pk_prof_id = payload['user_id']
+        prof_name = request.data.get("prof_name")
+        prof_dept = request.data.get("prof_dept")
+        database = Proffesor(prof_name=prof_name, pk_prof_id = pk_prof_id, prof_dept=prof_dept)
+        database.save()
+        return Response({"Success":"True"}, status=200)
 
 # class talent_check_accepted(APIView):
 #     permission_classes = (IsAuthenticated,)
