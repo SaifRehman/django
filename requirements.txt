@@ -52,7 +52,7 @@ pytz==2016.10
 reportlab==3.3.0
 requests==2.12.4
 simplegeneric==0.8.1
-sip==4.19
+sip
 six==1.10.0
 traitlets==4.3.1
 ujson==1.35
