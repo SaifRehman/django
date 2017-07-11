@@ -29,7 +29,7 @@ from os.path import join, dirname
 from os import environ
 from watson_developer_cloud import VisualRecognitionV3
 from watson_developer_cloud import ToneAnalyzerV3     
-
+from watson_developer_cloud import PersonalityInsightsV3
 class signup(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
@@ -107,6 +107,22 @@ class WatsonVision(APIView):
         visual_recognition = VisualRecognitionV3('2016-05-20', api_key='dd25c6e9314862d037af87c6e5bad2c67fab1b81')
         response=visual_recognition.classify(images_url=data)
         return Response({"Succes":response}, status=200)
+
+class WatsonPI(APIView):
+    permission_classes=(IsAuthenticated,)
+    def post (self, request, format= None):
+        data = request.data.get("Text")
+        personality_insights = PersonalityInsightsV3(
+        version="2016-10-20)",
+        username="14bd667f-c38c-4e04-9b66-5dcc64d097f4",
+        url="https://gateway.watsonplatform.net/personality-insights/api",
+        password="Xw6OeG0tzZvk"
+      #  x-watson-learning-opt-out=True
+        )
+        response = personality_insights.profile(data, consumption_preferences=True)
+
+        return Response({"Succes":response}, status=200)
+
 
 class WatsonToneAnalyzer(APIView):
      permission_classes = (IsAuthenticated,)

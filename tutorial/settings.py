@@ -39,22 +39,26 @@ TEMPLATES = [
 
 BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'staticfiles'))
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'k^g5ng&=sob!u4mtt8uv*ebem4+ny#xhgknz#esj^^$+f+)ed('
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = []
 # Application definition
 INSTALLED_APPS = [
-    'bootstrap_admin', # always before django.contrib.admin
-    # 'material',
+    #'bootstrap_admin', # always before django.contrib.admin
+    # 'material',bootstrap_admin
     # 'material.admin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -168,3 +172,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = "/media/"
+

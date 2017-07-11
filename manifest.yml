@@ -2,5 +2,5 @@ applications:
  - name: django-practice-ibm
    random-route: true
    memory: 256M
-   command: sh run.sh
+   command: python manage.py runserver
    buildpack:  python_buildpack

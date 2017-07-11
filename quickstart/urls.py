@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^watson/$', WatsonTest.as_view(),name="get"), 
     url(r'^watsonV/$', WatsonVision.as_view(),name="post"),
     url(r'^watsonST/$', WatsonToneAnalyzer.as_view(),name="post"),
+    url(r'^watsonPI/$', WatsonPI.as_view(),name="post"),
     # url(r'^talent/accepted/$', talent_check_accepted.as_view(),name="post"),
     # url(r'^talent/uploadvisaid/$', talent_upload_visaid.as_view(),name="post"),
     # url(r'^talent/record/$', record_exist_talent.as_view(),name="post"),
