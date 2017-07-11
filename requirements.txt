@@ -22,21 +22,13 @@ pycparser==2.18
 pycrypto==2.6.1
 pycurl==7.43.0
 PyJWT==1.5.2
-<<<<<<< HEAD
 pyOpenSSL==17.1.0
 pysolr==3.6.0
 pytz==2017.2
 requests==2.18.1
-=======
-pyparsing==2.2.0
-python-dateutil==2.6.0
-pytz==2016.10
-reportlab==3.3.0
-requests==2.12.4
-simplegeneric==0.8.1
->>>>>>> 2732fcc46840e801edf36d39d55cd4cc1ac9192c
 six==1.10.0
 urllib3==1.21.1
 virtualenv==15.1.0
 watson-developer-cloud==0.26.0
+
 
