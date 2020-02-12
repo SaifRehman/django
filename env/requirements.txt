@@ -8,7 +8,7 @@ billiard==3.5.0.2
 celery==4.0.2
 Cython==0.25.2
 decorator==4.0.11
-Django==1.10.6
+Django==1.11.28
 django-ckeditor==5.2.1
 django-controlcenter==0.2.3
 django-cors-headers==2.1.0
